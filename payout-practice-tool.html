@@ -1,0 +1,67 @@
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+
+			// check payout function
+			$('#guess_button').click(function(){
+				var streak = parseInt($('#streak_counter').text());
+				if (parseFloat($('#guess').val()) == parseFloat($('#number').text()) * parseFloat($('#payout_multiplier').val())) {
+					alert("Correct!!! Hooray!!! Woohoo!!!"); 
+					if ($('#fives_checkbox').is(":checked")) {
+						$('#number').text((Math.floor(Math.ceil(Math.random() * (parseInt($('#maximum').val())) / 5) * 5)).toString());
+					} else {
+						$('#number').text((Math.floor(Math.random() * parseInt($('#maximum').val()))).toString());
+					}
+					$('#guess').val("");
+					streak++;
+				} else { 
+					alert("Try Again"); 
+					streak = 0;
+				} 
+				$('#streak_counter').text(streak.toString());
+				$('#streak_counter').css("fontSize", (streak * 12).toString() + "px");
+
+			});
+
+			// enter key
+			$('#guess').keypress(function (e) {
+				var key = e.which;
+				if(key == 13) {
+				 	$('#guess_button').click();
+				 }
+			});
+			$('#settings_button').click(function(){$('#settings').toggle();})
+
+			// start with settings hidden
+			$('#settings').toggle();
+
+		});
+	</script>
+</head>
+<body>
+	<button id="settings_button">show/hide settings</button>
+	<span id="settings">
+	<br/>
+	<br/>
+	Maximum Bet: <input id="maximum" value="100"/>
+	<br/>
+	Bet is Only Multiples of 5: <input id="fives_checkbox" type="checkbox" checked/>
+	<br/>
+	Payout Multiplier: <input id="payout_multiplier" value="1.5" />
+	<br/>
+	</span>
+	<br/>
+	<br/>
+	<span style="font-size: 20px;">BET WAS:  <strong id="number">5</strong></span>
+	<br/>
+	<input id="guess"></input>
+	<button id="guess_button">Check Payout Calculation</button>
+	<br/>
+	<br/>
+	Your Streak: <span id="streak_counter">0</span>
+
+
+</body>
+</html>
