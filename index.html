@@ -28,7 +28,7 @@
 			// enter key
 			$('#guess').keypress(function (e) {
 				var key = e.which;
-				if(key == 13) {
+				if (key == 13) {
 					$('#guess_button').click();
 				}
 			});
@@ -170,32 +170,32 @@
 	<div class="break"></div>
 	<div class="chips" id="chips">
 		<div class="chip chip-1">
-			<input id="1_chips" type="number" value="0" class="chip-input"></input>
+			<input id="1_chips" type="number" value="0" class="chip-input"></input pattern="[0-9]*">>
 			<div class="chip-value">1</div>
 		</div>
 		<div class="chip chip-2andahalf">
-			<input id="2andahalf_chips" type="number" value="0" class="chip-input"></input>
+			<input id="2andahalf_chips" type="number" value="0" class="chip-input" pattern="[0-9]*">></input>
 			<div class="chip-value">2.5</div>
 		</div>
 		<div class="chip chip-5">
-			<input id="5_chips" type="number" value="0" class="chip-input"></input>
+			<input id="5_chips" type="number" value="0" class="chip-input" pattern="[0-9]*">></input>
 			<div class="chip-value">5</div>
 		</div>
 		<div class="chip chip-25">
-			<input id="25_chips" type="number" value="0" class="chip-input"></input>
+			<input id="25_chips" type="number" value="0" class="chip-input" pattern="[0-9]*">></input>
 			<div class="chip-value">25</div>
 		</div>
 		<div class="chip chip-100">
-			<input id="100_chips" type="number" value="0" class="chip-input"></input>
+			<input id="100_chips" type="number" value="0" class="chip-input" pattern="[0-9]*">></input>
 			<div class="chip-value">100</div>
 		</div>
 		<div class="chip chip-500">
-			<input id="500_chips" type="number" value="0" class="chip-input"></input>
+			<input id="500_chips" type="number" value="0" class="chip-input" pattern="[0-9]*">></input>
 			<div class="chip-value">500</div>
 		</div>
 	</div>
 	<div class="break"></div>
-	<input id="guess" type="number"></input>
+	<input id="guess" type="number" pattern="[0-9]*"></input>
 	<button id="guess_button">Check Payout Calculation</button>
 	<div class="break"></div>
 	Your Streak: 
