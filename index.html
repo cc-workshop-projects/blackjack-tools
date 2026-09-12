@@ -3,6 +3,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 	<script>
 		$(document).ready(function(){
+			var bet = 5;
 
 			// check payout function
 			$('#guess_button').click(function(){
@@ -12,10 +13,13 @@
 				if (chipCheckCorrect()) {
 					alert("Correct!!! Hooray!!! Woohoo!!!"); 
 					if ($('#fives_checkbox').is(":checked")) {
-						$('#number').text((Math.floor(Math.floor(Math.random() * (max - min) + min) / 5) * 5).toString());
+						bet = Math.floor(Math.floor(Math.random() * (max - min) + min) / 5) * 5
+						$('#bet_number').text(bet.toString());
 					} else {
-						$('#number').text((Math.floor(Math.random() * (max - min) + min)).toString());
+						bet = Math.floor(Math.random() * (max - min) + min);
+						$('#bet_number').text(bet.toString());
 					}
+					betNumberToChips(bet);
 					$('#guess').val('');
 					streak++;
 				} else { 
@@ -36,10 +40,16 @@
 			});
 			$('#settings_button').click(function(){$('#settings').toggle();})
 
-			$('#chips_or_text_button').click(function() {
+			$('#chips_or_text_payout').click(function() {
 				$('#guess').toggle();
-				$('#chips').toggle();
+				$('.chips.payout').toggle();
 			});
+
+			$('#chips_or_text_bet').click(function() {
+				$('#bet_number').toggle();
+				$('.chips.bet').toggle();
+			});
+
 
 			function totalUpChips() {
 				var sum = parseInt($('#1_chips').val() || 0) + 
@@ -52,10 +62,12 @@
 			} 
 
 			function chipCheckCorrect() {
+				//testing
+				return true;
 				if ($('#chips').is(":hidden")) {
-					return parseFloat($('#guess').val() || 0) == parseFloat($('#number').text()) * parseFloat($('#payout_multiplier').val());
+					return parseFloat($('#guess').val() || 0) == bet * parseFloat($('#payout_multiplier').val());
 				} else {
-					return totalUpChips() == parseFloat($('#number').text()) * parseFloat($('#payout_multiplier').val());
+					return totalUpChips() == bet * parseFloat($('#payout_multiplier').val());
 				}
 			}
 
@@ -68,9 +80,37 @@
 				$('#500_chips').val('');
 			}
 
+			function betNumberToChips(betInt) {
+				console.log(bet.toString());
+				var chipAmounts = [0,0,0,0,0];
+				var chipValues = [1,5,25,100,500];
+				var val = 0;
+				var rand = 0;
+				while (val < betInt) {
+					rand = Math.floor(Math.random() * chipValues.length);
+					if (chipValues[rand] + val <= betInt) {
+						chipAmounts[rand] = chipAmounts[rand] + 1;
+						val += chipValues[rand];
+					}
+				}
+
+				for (var i = 0; i < chipValues.length; i++){
+					val = chipValues[i];
+					if (chipAmounts[i] == 0) {
+						$('.bet .chip-' + val.toString()).hide();
+					} else {
+						$('.bet .chip-' + val.toString()).show();
+						$('#' + val.toString() + '_chips_bet').text(chipAmounts[i].toString() + "x");
+					}
+				}
+				return chipAmounts;
+			}
+
 			// start with settings hidden
+			$('#bet_number').toggle();
 			$('#settings').toggle();
 			$('#guess').toggle();
+			betNumberToChips(bet);
 			resetChips();
 
 		});
@@ -94,6 +134,10 @@
 			border: 1px;
 			border-style: solid;
 			border-color: black;
+		}
+
+		.bet-was {
+			font-size: 20px;
 		}
 
 		.chips {
@@ -166,13 +210,38 @@
 		<div class="break"></div>
 		Payout Multiplier: <input id="payout_multiplier" value="1.5" type="number"/>
 		<div class="break"></div>
-		<button id="chips_or_text_button">Switch Payout Input Chips/Textbox</button>
+		<button id="chips_or_text_bet">Switch Bet Chips/Textbox</button>
+		<div class="break"></div>
+		<button id="chips_or_text_payout">Switch Payout Chips/Textbox</button>
 		<div class="break"></div>
 	</div>
 	<div class="break"></div>
-	<div style="font-size: 20px;">BET WAS:  <strong id="number">5</strong></div>
+	<div class="bet-was">BET WAS:  <strong id="bet_number">5</strong></div>
+	<div class="chips bet">
+		<div class="chip chip-1">
+			<div id="1_chips_bet" class="chip-value">0x</div>
+			<div class="chip-value">1</div>
+		</div>
+		<div class="chip chip-5">
+			<div id="5_chips_bet" class="chip-value">0x</div>
+			<div class="chip-value">5</div>
+		</div>
+		<div class="chip chip-25">
+			<div id="25_chips_bet" class="chip-value">0x</div>
+			<div class="chip-value">25</div>
+		</div>
+		<div class="chip chip-100">
+			<div id="100_chips_bet" class="chip-value">0x</div>
+			<div class="chip-value">100</div>
+		</div>
+		<div class="chip chip-500">
+			<div id="500_chips_bet" class="chip-value">0x</div>
+			<div class="chip-value">500</div>
+		</div>
+	</div>
+
 	<div class="break"></div>
-	<div class="chips" id="chips">
+	<div class="chips payout">
 		<div class="chip chip-1">
 			<input id="1_chips" type="number" value="0" class="chip-input" pattern="[0-9]*"></input>
 			<div class="chip-value">1</div>
