@@ -14,7 +14,7 @@
 					} else {
 						$('#number').text((Math.floor(Math.random() * parseInt($('#maximum').val()))).toString());
 					}
-					$('#guess').val('0');
+					$('#guess').val('');
 					streak++;
 				} else { 
 					alert("Try Again"); 
@@ -40,30 +40,30 @@
 			});
 
 			function totalUpChips() {
-				var sum = parseInt($('#1_chips').val()) + 
-				(parseInt($('#2andahalf_chips').val()) * 2.5) +
-				(parseInt($('#5_chips').val()) * 5) +
-				(parseInt($('#25_chips').val()) * 25) +
-				(parseInt($('#100_chips').val()) * 100) +
-				(parseInt($('#500_chips').val()) * 500);
+				var sum = parseInt($('#1_chips').val() || 0) + 
+				(parseInt($('#2andahalf_chips').val() || 0) * 2.5) +
+				(parseInt($('#5_chips').val() || 0) * 5) +
+				(parseInt($('#25_chips').val() || 0) * 25) +
+				(parseInt($('#100_chips').val() || 0) * 100) +
+				(parseInt($('#500_chips').val() || 0) * 500);
 				return sum;
 			} 
 
 			function chipCheckCorrect() {
 				if ($('#chips').is(":hidden")) {
-					return parseFloat($('#guess').val()) == parseFloat($('#number').text()) * parseFloat($('#payout_multiplier').val());
+					return parseFloat($('#guess').val() || 0) == parseFloat($('#number').text()) * parseFloat($('#payout_multiplier').val());
 				} else {
 					return totalUpChips() == parseFloat($('#number').text()) * parseFloat($('#payout_multiplier').val());
 				}
 			}
 
 			function resetChips() {
-				$('#1_chips').val('0');
-				$('#2andahalf_chips').val('0');
-				$('#5_chips').val('0');
-				$('#25_chips').val('0');
-				$('#100_chips').val('0');
-				$('#500_chips').val('0');
+				$('#1_chips').val('');
+				$('#2andahalf_chips').val('');
+				$('#5_chips').val('');
+				$('#25_chips').val('');
+				$('#100_chips').val('');
+				$('#500_chips').val('');
 			}
 
 			// start with settings hidden
